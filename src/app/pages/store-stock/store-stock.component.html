@@ -1,0 +1,112 @@
+<!-- Breadcrumb
+<app-breadcrumbs title="Stock List" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+
+      <!-- Card Header -->
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="card-title mb-0">Stock List</h4>
+        <div class="d-flex gap-2">
+          <button class="btn btn-soft-secondary" (click)="navigateBack()">
+            <i class="ri-arrow-left-line me-1"></i> Back
+          </button>
+          <!-- <button class="btn btn-soft-success" (click)="downloadExcel()">
+            <i class="ri-file-excel-2-line me-1"></i> Export
+          </button> -->
+          <!-- <button class="btn btn-success" (click)="openAddModal()">
+            <i class="ri-add-line me-1"></i> Add Stock
+          </button> -->
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="card-body border-bottom">
+        <div class="row g-3 align-items-center">
+          <!-- Search -->
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Search product..."
+                   [(ngModel)]="filters.search" (input)="applyFilters()" />
+          </div>
+
+          <!-- Category Multi-Select -->
+          <div class="col-md-4">
+            <select multiple class="form-select" [(ngModel)]="filters.SelectedCategories" (change)="applyFilters()">
+              <option *ngFor="let c of categories" [value]="c">{{c}}</option>
+            </select>
+          </div>
+
+          <!-- Page Size -->
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="filters.pageSize" (change)="applyFilters()">
+              <option *ngFor="let size of pageSizes" [value]="size">{{size}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table align-middle table-striped table-hover">
+            <thead class="table-light">
+              <tr>
+                <th (click)="sortData('productName')">Product <i class="ri-sort-desc"></i></th>
+                <th (click)="sortData('categoryName')">Category <i class="ri-sort-desc"></i></th>
+                <th (click)="sortData('price')">Price <i class="ri-sort-desc"></i></th>
+                <th (click)="sortData('stock')">Stock <i class="ri-sort-desc"></i></th>
+                <th>Image</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stock of paginatedData">
+                <td>{{stock.productName}}</td>
+                <td>{{stock.categoryName}}</td>
+                <td>₹{{stock.price}}</td>
+                <td>{{stock.stock}}</td>
+                <td>
+                  <img *ngIf="stock.imageUrl" [src]="stock.imageUrl" class="rounded avatar-sm" />
+                </td>
+                <td class="text-center">
+                  <!-- <button class="btn btn-sm btn-soft-primary me-2" (click)="openEditModal(stock)">
+                    <i class="ri-edit-2-line"></i>
+                  </button> -->
+                  <!-- <button class="btn btn-sm btn-soft-danger" (click)="deleteStock(stock)">
+                    <i class="ri-delete-bin-6-line"></i>
+                  </button> -->
+                </td>
+              </tr>
+              <tr *ngIf="paginatedData.length === 0">
+                <td colspan="6" class="text-center text-muted">No records found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <p class="mb-0">Showing {{startIndex+1}} - {{endIndex}} of {{filteredData.length}}</p>
+          <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" [class.disabled]="filters.page===1">
+              <a class="page-link" (click)="changePage(filters.page-1)">Previous</a>
+            </li>
+            <li *ngFor="let p of totalPagesArray"
+                class="page-item" [class.active]="p===filters.page">
+              <a class="page-link" (click)="changePage(p)">{{p}}</a>
+            </li>
+            <li class="page-item" [class.disabled]="filters.page===totalPages">
+              <a class="page-link" (click)="changePage(filters.page+1)">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Modals -->
+<!-- <app-add-stock-modal #addStockModal (stockAdded)="reloadData()"></app-add-stock-modal>
+<app-edit-stock-modal #editStockModal (stockUpdated)="reloadData()"></app-edit-stock-modal> -->
