@@ -8,17 +8,17 @@ import { StoreListComponent } from './store-list/store-list.component';
 import { StoreStockComponent } from './store-stock/store-stock.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: DashboardComponent,
-  },
-  {
-    path: '',
-    loadChildren: () =>
-      import('./dashboards/dashboards.module').then((m) => m.DashboardsModule),
-  },
+  // {
+  //   path: '',
+  //   component: DashboardComponent,
+  // },
+  // {
+  //   path: '',
+  //   loadChildren: () =>
+  //     import('./dashboards/dashboards.module').then((m) => m.DashboardsModule),
+  // },
     {
-    path: 'store-list',   
+    path: '',   
     component: StoreListComponent
   },
    {
