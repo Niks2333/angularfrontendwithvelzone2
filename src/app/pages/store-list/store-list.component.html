@@ -1,8 +1,8 @@
-
 <div class="row">
   <div class="col-lg-12">
     <div class="card">
-      
+
+      <!-- Card Header -->
       <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="card-title mb-0">Stores</h4>
         <button class="btn btn-success" (click)="addStore()">
@@ -11,58 +11,80 @@
       </div>
 
       <div class="card-body">
-        <!-- Search -->
-        <div class="d-flex justify-content-end mb-3">
-          <div class="search-box ms-2">
-            <input type="text" class="form-control search" placeholder="Search by name..."
-                   [(ngModel)]="searchTerm">
-            <i class="ri-search-line search-icon"></i>
-          </div>
-        </div>
+        <div class="listjs-table" id="storeList">
 
-        <!-- Table -->
-        <div class="table-responsive table-card mt-3 mb-1">
-          <table class="table align-middle table-nowrap">
-            <thead class="table-light">
-              <tr>
-                <th>Store Name</th>
-                <th>Created By</th>
-                <th>Created On</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let store of paginatedStores">
-                <td>{{ store.StoreName }}</td>
-                <td>{{ store.CreatedBy }}</td>
-                <td>{{ store.CreatedOn | date:'short' }}</td>
-                <td>
-                  <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-primary" (click)="viewStock(store.StoreName)">View</button>
-                    <button class="btn btn-sm btn-outline-success" (click)="editStore(store.StoreName)">Edit</button>
-                  </div>
-                </td>
-              </tr>
-              <tr *ngIf="paginatedStores.length === 0">
-                <td colspan="4" class="text-center">No stores found.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
-          <div>
-            Showing {{ (page - 1) * pageSize + 1 }} 
-            to {{ Math.min(page * pageSize, filteredStores.length) }} 
-            of {{ filteredStores.length }} entries
+          <!-- Search -->
+          <div class="row g-4 mb-3">
+            <div class="col-sm">
+              <div class="d-flex justify-content-sm-end">
+                <div class="search-box ms-2">
+                  <input type="text" class="form-control search" placeholder="Search by name..."
+                         [(ngModel)]="searchTerm">
+                  <i class="ri-search-line search-icon"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <ngb-pagination [collectionSize]="filteredStores.length"
-                          [(page)]="page"
-                          [pageSize]="pageSize">
-          </ngb-pagination>
+
+          <!-- Table -->
+          <div class="table-responsive table-card mt-3 mb-1">
+            <table class="table align-middle table-nowrap">
+              <thead class="table-light">
+                <tr class="bg-light text-muted">
+                  <th>Store Name</th>
+                  <th>Created By</th>
+                  <th>Created On</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let store of paginatedStores">
+                  <td>{{ store.StoreName }}</td>
+                  <td>{{ store.CreatedBy }}</td>
+                  <td>{{ store.CreatedOn | date:'short' }}</td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <button class="btn btn-sm btn-outline-primary"
+                              (click)="viewStock(store.StoreName)">
+                        View
+                      </button>
+                      <button class="btn btn-sm btn-outline-success"
+                              (click)="editStore(store.StoreName)">
+                        Edit
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="paginatedStores.length === 0">
+                  <td colspan="4" class="text-center">No stores found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="row justify-content-md-between align-items-md-center">
+            <div class="col col-sm-6">
+              <div class="dataTables_info mb-2" role="status" aria-live="polite">
+                Showing
+                {{ (page - 1) * pageSize + 1 }}
+                to {{ Math.min(page * pageSize, filteredStores.length) }}
+                of {{ filteredStores.length }} entries
+              </div>
+            </div>
+            <div class="col col-sm-6">
+              <div class="text-sm-right float-sm-end listjs-pagination">
+                <ngb-pagination [collectionSize]="filteredStores.length"
+                                [(page)]="page"
+                                [pageSize]="pageSize">
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
+      </div><!-- end card-body -->
+
     </div>
   </div>
 </div>

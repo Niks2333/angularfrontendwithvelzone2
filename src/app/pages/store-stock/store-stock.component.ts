@@ -4,6 +4,7 @@ import { StoreStockService } from 'src/app/core/services/stock.service';
 import { StoreProductViewModel } from 'src/app/core/models/store-product-view.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-store-stock',
@@ -12,7 +13,8 @@ import { CommonModule, DatePipe } from '@angular/common';
   styleUrls: ['./store-stock.component.scss'],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgSelectModule
   ],
   providers: [DatePipe]
 })

@@ -24,6 +24,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./topbar.component.scss']
 })
 export class TopbarComponent implements OnInit {
+    username: string | null = null;
   messages: any
   element: any;
   mode: string | undefined;
@@ -51,6 +52,10 @@ export class TopbarComponent implements OnInit {
   ngOnInit(): void {
     this.userData = this.TokenStorageService.getUser();
     this.element = document.documentElement;
+      const user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+      this.username = user.username;  
+    //  console.log(this.username);
+      // debugger;
 
     // Cookies wise Language set
     this.cookieValue = this._cookiesService.get('lang');

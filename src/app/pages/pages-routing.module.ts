@@ -20,11 +20,11 @@ const routes: Routes = [
     {
     path: '',   
     component: StoreListComponent
-  },
+    },
    {
     path: 'store/:storeName/stock',  
     component: StoreStockComponent,
-  }
+   }
  
 ];
 
