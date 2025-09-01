@@ -12,7 +12,8 @@ export interface LoginModel {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private apiUrl = `${environment.apiBaseUrl}/Account`; // 🔹 your backend URL
+  private apiUrl = `${environment.apiBaseUrl}/Account`; 
+  
   private tokenKey = 'token';
   private userKey = 'currentUser';
 
@@ -29,13 +30,17 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-// service
+
+  
 login(loginData: LoginModel): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/login`, loginData).pipe(
     tap(response => {
+      debugger;
       if (response && response.token) {
         sessionStorage.setItem(this.tokenKey, response.token);
         sessionStorage.setItem(this.userKey, response.Username); 
+            console.log("Stored token:", sessionStorage.getItem(this.tokenKey));
+    console.log("Stored username:", sessionStorage.getItem(this.userKey));
         this.currentUserSubject.next(response.Username);
       }
     })

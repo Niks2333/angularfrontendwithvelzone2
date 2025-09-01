@@ -4,9 +4,8 @@ import { StoreService } from 'src/app/core/services/store.service';
 import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../../shared/shared.module';
 
-// 👇 Import Breadcrumbs component if it’s standalone
-import { BreadcrumbsComponent } from 'src/app/shared/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-store-list',
@@ -14,15 +13,16 @@ import { BreadcrumbsComponent } from 'src/app/shared/breadcrumbs/breadcrumbs.com
   templateUrl: './store-list.component.html',
   styleUrls: ['./store-list.component.scss'],
   imports: [
-    CommonModule,          // *ngIf, *ngFor, pipes
-    FormsModule,           // [(ngModel)]
-    NgbPaginationModule,   // <ngb-pagination>
-      // <app-breadcrumbs>
+    CommonModule,
+    FormsModule,
+    NgbPaginationModule,
+    SharedModule
+
   ],
   providers: [DatePipe]
 })
 export class StoreListComponent implements OnInit {
-  Math=Math;
+  Math = Math;
   breadCrumbItems!: Array<{}>;
   stores: any[] = [];
   error = '';
@@ -35,7 +35,7 @@ export class StoreListComponent implements OnInit {
     private storeService: StoreService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.breadCrumbItems = [
@@ -55,14 +55,14 @@ export class StoreListComponent implements OnInit {
     });
   }
 
-  // filtering
+
   get filteredStores() {
     return this.stores.filter(s =>
       s.StoreName.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  // pagination
+
   get paginatedStores() {
     const start = (this.page - 1) * this.pageSize;
     return this.filteredStores.slice(start, start + this.pageSize);

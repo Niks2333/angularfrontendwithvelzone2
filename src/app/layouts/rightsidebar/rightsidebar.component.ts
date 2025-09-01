@@ -37,11 +37,11 @@ export class RightsidebarComponent implements OnInit {
   constructor(private offcanvasService: NgbOffcanvas,private store: Store<RootReducerState>) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      if (this.offcanvasService.hasOpenOffcanvas() == false) {
-        this.openEnd(this.filtetcontent);
-      };
-    }, 1000);
+    // setTimeout(() => {
+    // //   if (this.offcanvasService.hasOpenOffcanvas() == false) {
+    // //     this.openEnd(this.filtetcontent);
+    // //   };
+    // // }, 1000);
     this.store.select('layout').subscribe((data) => {
       this.layout = data.LAYOUT;
       this.mode = data.LAYOUT_MODE;
@@ -168,7 +168,7 @@ changePosition(layoutPosition: string) {
   this.store.select(getLayoutPosition).subscribe((position) => {
     document.documentElement.setAttribute('data-layout-position', position);
   })
- 
+
 }
 
 // Topbar Change
