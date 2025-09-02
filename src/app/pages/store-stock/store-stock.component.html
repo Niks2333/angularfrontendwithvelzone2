@@ -89,9 +89,14 @@
                   </td>
                   <td class="text-center">
                     <div class="hstack gap-3 flex-wrap justify-content-center">
-                      <a href="javascript:void(0);" class="link-success fs-15"><i class="ri-edit-2-line"></i></a>
+                      <a [routerLink]="['/edit-stock', product.StoreProductId]" [queryParams]="{ storeName: storeName }"
+                        class="link-success fs-15">
+                        <i class="ri-edit-2-line"></i>
+                      </a>
+
                       <a href="javascript:void(0);" class="link-danger fs-15"><i class="ri-delete-bin-line"></i></a>
                     </div>
+
                   </td>
 
                 </tr>
@@ -103,7 +108,7 @@
           </div>
 
 
-          <div class="row justify-content-md-between align-items-md-center">             
+          <div class="row justify-content-md-between align-items-md-center">
             <div class="col col-sm-6">
               <div class="dataTables_info mb-2" role="status">
                 Showing {{ (filters.page - 1) * filters.pageSize + 1 }}

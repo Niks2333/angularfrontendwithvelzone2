@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import { StoreListComponent } from './store-list/store-list.component'; 
 import { StoreStockComponent } from './store-stock/store-stock.component';
+import { EditStockComponent } from './edit-stock/edit-stock.component';
 
 const routes: Routes = [
   // {
@@ -24,7 +25,12 @@ const routes: Routes = [
    {
     path: 'store/:storeName/stock',  
     component: StoreStockComponent,
+   },
+   {
+    path:'edit-stock/:id',
+    component: EditStockComponent
    }
+   
  
 ];
 

@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
-import { share } from 'rxjs';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   selector: 'app-store-stock',
@@ -17,7 +17,8 @@ import { share } from 'rxjs';
     CommonModule,
     FormsModule,
     NgSelectModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   providers: [DatePipe]
 })
@@ -75,6 +76,7 @@ export class StoreStockComponent implements OnInit {
         this.categories = data.Categories || [];
         this.categoryDropdownList = this.categories.map(c => ({ value: c }));
         this.totalPages = Math.ceil((data.TotalCount || 0) / this.filters.pageSize) || 1;
+        debugger;
       },
       error: (err) => {
         console.error('Error fetching stock', err);

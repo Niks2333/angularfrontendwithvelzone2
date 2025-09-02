@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 export interface LoginModel {
@@ -57,4 +57,17 @@ login(loginData: LoginModel): Observable<any> {
   getToken(): string | null {
     return sessionStorage.getItem(this.tokenKey);
   }
+
+    validateToken(): Observable<boolean> {
+    if (!this.getToken()) {
+      return of(false); // no token
+    }
+
+    return this.http.post<any>(`${this.apiUrl}/ValidateToken`, {}).pipe(
+      map(() => true),            // API success → token valid
+      catchError(() => of(false)) // API error → token invalid
+    );
+  }
+
+  
 }

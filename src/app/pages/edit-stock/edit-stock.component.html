@@ -1,0 +1,82 @@
+<!-- <app-breadcrumbs title="Edit Stock" [breadcrumbItems]="['Dashboard', 'Stock', 'Edit']"></app-breadcrumbs> -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">Edit Stock</h4>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="submit()" #editStockForm="ngForm">
+          
+          <!-- Product Name -->
+          <div class="mb-3">
+            <label class="form-label">Product Name</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="model.ProductName"
+                   name="productName"
+                   readonly />
+          </div>
+
+          <!-- Category -->
+          <!-- <div class="mb-3">
+            <label class="form-label">Category</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="model.CategoryName"
+                   name="categoryName"
+                   readonly />
+          </div> -->
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number"
+                   class="form-control"
+                   [(ngModel)]="model.StorePrice"
+                   name="price"
+                   required />
+          </div>
+
+          <!-- Stock -->
+          <div class="mb-3">
+            <label class="form-label">Stock</label>
+            <input type="number"
+                   class="form-control"
+                   [(ngModel)]="model.Stock"
+                   name="stock"
+                   required />
+          </div>
+
+          <!-- Image Upload -->
+          <div class="mb-3">
+            <label class="form-label">Product Image</label>
+            <input type="file"
+                   class="form-control"
+                   (change)="onImageChange($event)" 
+                   />
+            <div class="mt-2">
+              <img *ngIf="model.ImagePath"
+                   [src]="backendImageUrl + model.ImagePath"
+                   alt="Product Image"
+                   class="img-thumbnail"
+                   style="max-height: 120px;" />
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-light" routerLink="/stock">
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-success" [disabled]="editStockForm.invalid">
+              Save Changes
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

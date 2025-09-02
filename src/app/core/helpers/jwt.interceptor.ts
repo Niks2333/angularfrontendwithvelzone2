@@ -3,14 +3,14 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { AuthenticationService } from '../services/login.service';
-import { AuthfakeauthenticationService } from '../services/authfake.service';
+//import { AuthfakeauthenticationService } from '../services/authfake.service';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
     constructor(
         private authenticationService: AuthenticationService,
-        private authfackservice: AuthfakeauthenticationService
+       // private authfackservice: AuthfakeauthenticationService
     ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

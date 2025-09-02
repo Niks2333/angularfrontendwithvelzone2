@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
  import { StoreProductViewModel } from '../models/store-product-view.model';
 // import { WebAddStockViewModel } from '../models/web-add-stock.model';
-// import { WebEditStockViewModel } from '../models/web-edit-stock.model';
+ import { WebEditStockViewModel } from '../models/web-edit-stock.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +44,8 @@ export class StoreStockService {
   // }
   deleteStock(id: number) {
     return this.http.delete(`${this.baseUrl}/delete/${id}`);
+  }
+    getEditStockFormData(id: number): Observable<WebEditStockViewModel> {
+    return this.http.get<WebEditStockViewModel>(`${this.baseUrl}/edit-form-data/${id}`);
   }
 }
