@@ -6,35 +6,44 @@ import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
+
 
 @Component({
   selector: 'app-edit-stock',
   standalone: true,
   templateUrl: './edit-stock.component.html',
   styleUrls: ['./edit-stock.component.scss'],
-  imports: [FormsModule,CommonModule]
-  
+  imports: [FormsModule, CommonModule, SharedModule]
+
 })
 export class EditStockComponent implements OnInit {
   model = new WebEditStockViewModel();
   selectedFile?: File;
-  backendImageUrl = environment.apiBaseUrl + '/Content/images/';
+  backendImageUrl = 'http://localhost:56262/Content/images/';
   imagePreview = '';
   stockId!: number;
-  storeName!: string; // ✅ to redirect back
+  storeName!: string;
+   breadCrumbItems!: Array<{}>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private stockService: StoreStockService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.stockId = Number(this.route.snapshot.paramMap.get('id'));
-    this.storeName = this.route.snapshot.queryParamMap.get('storeName') || ''; // keep store name
+    this.storeName = this.route.snapshot.queryParamMap.get('storeName') || '';
     if (this.stockId) {
       this.loadStockData();
     }
+       this.breadCrumbItems = [
+      { label: 'Dashboard' },
+      { label: 'Store List' },
+      {label:'stock'},
+      {label:'stock-edit',active:true}
+    ];
   }
 
   loadStockData() {
@@ -56,12 +65,19 @@ export class EditStockComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
+  cancel() {
+    this.router.navigate([`/store/${this.storeName}/stock`]);
+  }
   submit() {
-    if (this.model.StorePrice < 0 || this.model.Stock < 0) {
+    if (this.model.StorePrice < 1 || this.model.Stock < 1) {
+      Swal.fire({
+        title: '⚠️ Invalid input',
+        text: 'Price and Stock must be greater than 0.',
+        icon: 'warning',
+        confirmButtonColor: '#364574'
+      });
       return;
     }
-
     const formData = new FormData();
     formData.append('model', JSON.stringify(this.model));
     if (this.selectedFile) {
@@ -78,7 +94,7 @@ export class EditStockComponent implements OnInit {
             confirmButtonColor: '#364574',
             confirmButtonText: 'OK'
           }).then(() => {
-            // redirect back to stock page with storeName
+
             this.router.navigate([`/store/${this.storeName}/stock`]);
           });
         } else {

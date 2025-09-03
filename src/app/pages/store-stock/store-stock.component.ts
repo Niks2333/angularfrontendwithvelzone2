@@ -4,9 +4,10 @@ import { StoreStockService } from 'src/app/core/services/stock.service';
 import { StoreProductViewModel } from 'src/app/core/models/store-product-view.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgLabelTemplateDirective, NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
 import { RouterModule } from '@angular/router'; 
+import { act } from '@ngrx/effects';
 
 @Component({
   selector: 'app-store-stock',
@@ -64,7 +65,8 @@ export class StoreStockComponent implements OnInit {
     this.fetchStock();
     this.breadCrumbItems = [
       { label: 'Dashboard' },
-      { label: 'Store List', active: true }
+      { label: 'Store List' },
+      {label:'stock',active:true}
     ];
   }
 

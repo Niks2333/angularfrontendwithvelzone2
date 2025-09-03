@@ -1,28 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-// Auth Services
-import { AuthenticationService } from '../services/auth.service';
-import { AuthfakeauthenticationService } from '../services/authfake.service';
-import { environment } from '../../../environments/environment';
+
+import { AuthenticationService } from '../services/login.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard  {
-    constructor(
-        private router: Router,
-        private authenticationService: AuthenticationService,
-        private authFackservice: AuthfakeauthenticationService
-    ) { }
+export class AuthGuard {
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
-            //check if user data is in storage is logged in via API.
-            if(sessionStorage.getItem('currentUser')) {
-                return true;
-
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> {
+    return this.authenticationService.validateToken().pipe(
+      map((isValid: boolean) => {
+        if (isValid) {
+            console.log("Token is valid, user is authenticated.");
+          return true;
+        } else {
+          this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+          return false;
         }
-        // not logged in so redirect to login page with the return url
+      }),
+      catchError(() => {
         this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-        return false;
-    }
+        return of(false);
+      })
+    );
+  }
 }

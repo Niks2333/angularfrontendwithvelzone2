@@ -1,4 +1,4 @@
-<!-- <app-breadcrumbs title="Edit Stock" [breadcrumbItems]="['Dashboard', 'Stock', 'Edit']"></app-breadcrumbs> -->
+<app-breadcrumbs title="DASHBOARD" [breadcrumbItems]="   breadCrumbItems"></app-breadcrumbs>
 
 <div class="row">
   <div class="col-12">
@@ -8,73 +8,45 @@
       </div>
       <div class="card-body">
         <form (ngSubmit)="submit()" #editStockForm="ngForm">
-          
-          <!-- Product Name -->
           <div class="mb-3">
             <label class="form-label">Product Name</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="model.ProductName"
-                   name="productName"
-                   readonly />
+            <input type="text" class="form-control" [(ngModel)]="model.ProductName" name="productName" readonly />
           </div>
-
-          <!-- Category -->
-          <!-- <div class="mb-3">
-            <label class="form-label">Category</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="model.CategoryName"
-                   name="categoryName"
-                   readonly />
-          </div> -->
-
-          <!-- Price -->
           <div class="mb-3">
             <label class="form-label">Price</label>
-            <input type="number"
-                   class="form-control"
-                   [(ngModel)]="model.StorePrice"
-                   name="price"
-                   required />
-          </div>
-
-          <!-- Stock -->
-          <div class="mb-3">
-            <label class="form-label">Stock</label>
-            <input type="number"
-                   class="form-control"
-                   [(ngModel)]="model.Stock"
-                   name="stock"
-                   required />
-          </div>
-
-          <!-- Image Upload -->
-          <div class="mb-3">
-            <label class="form-label">Product Image</label>
-            <input type="file"
-                   class="form-control"
-                   (change)="onImageChange($event)" 
-                   />
-            <div class="mt-2">
-              <img *ngIf="model.ImagePath"
-                   [src]="backendImageUrl + model.ImagePath"
-                   alt="Product Image"
-                   class="img-thumbnail"
-                   style="max-height: 120px;" />
+            <input type="number" class="form-control" [(ngModel)]="model.StorePrice" name="price" required min="1"
+              #price="ngModel" />
+            <div class="text-danger mt-1" *ngIf="price.invalid && (price.dirty || price.touched)">
+              <small *ngIf="price.errors?.['required']">Price is required.</small>
+              <small *ngIf="price.errors?.['min']">Price must be greater than 0.</small>
             </div>
           </div>
 
-          <!-- Buttons -->
+          <div class="mb-3">
+            <label class="form-label">Stock</label>
+            <input type="number" class="form-control" [(ngModel)]="model.Stock" name="stock" required min="1"
+              #stock="ngModel" />
+            <div class="text-danger mt-1" *ngIf="stock.invalid && (stock.dirty || stock.touched)">
+              <small *ngIf="stock.errors?.['required']">Stock is required.</small>
+              <small *ngIf="stock.errors?.['min']">Stock must be greater than 0.</small>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Product Image</label>
+            <input type="file" class="form-control" (change)="onImageChange($event)" />
+            <div class="mt-2">
+              <img *ngIf="model.ImagePath" [src]="backendImageUrl + model.ImagePath" alt="Product Image"
+                class="img-thumbnail" style="max-height: 120px;" />
+            </div>
+          </div>
           <div class="d-flex justify-content-end gap-2">
-            <button type="button" class="btn btn-light" routerLink="/stock">
+            <button type="button" class="btn btn-light" (click)="cancel()">
               Cancel
             </button>
             <button type="submit" class="btn btn-success" [disabled]="editStockForm.invalid">
               Save Changes
             </button>
           </div>
-
         </form>
       </div>
     </div>

@@ -30,8 +30,6 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-
-  
 login(loginData: LoginModel): Observable<any> {
   return this.http.post<any>(`${this.apiUrl}/login`, loginData).pipe(
     tap(response => {
@@ -47,7 +45,6 @@ login(loginData: LoginModel): Observable<any> {
   );
 }
 
-
   logout(): void {
     sessionStorage.removeItem(this.tokenKey);
     sessionStorage.removeItem(this.userKey);
@@ -60,12 +57,12 @@ login(loginData: LoginModel): Observable<any> {
 
     validateToken(): Observable<boolean> {
     if (!this.getToken()) {
-      return of(false); // no token
+      return of(false); 
     }
 
     return this.http.post<any>(`${this.apiUrl}/ValidateToken`, {}).pipe(
-      map(() => true),            // API success → token valid
-      catchError(() => of(false)) // API error → token invalid
+      map(() => true),          
+      catchError(() => of(false)) 
     );
   }
 

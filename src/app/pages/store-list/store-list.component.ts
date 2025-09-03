@@ -39,7 +39,7 @@ export class StoreListComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [
-      { label: 'Stores' },
+      { label: 'Dashboard' },
       { label: 'Store List', active: true }
     ];
     this.loadStores();
