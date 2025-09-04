@@ -7,7 +7,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NgLabelTemplateDirective, NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
 import { RouterModule } from '@angular/router'; 
-import { act } from '@ngrx/effects';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-store-stock',
@@ -115,18 +116,30 @@ export class StoreStockComponent implements OnInit {
   //   }
   // }
 
-  // deleteStock(stock: any) {
-  //   if (confirm('Are you sure you want to delete this stock?')) {
-  //     this.stockService.deleteStock(stock.Id).subscribe({
-  //       next: () => {
-  //         this.successMessage = 'Stock deleted successfully';
-  //         this.applyFilters();
-  //         setTimeout(() => (this.successMessage = ''), 3000);
-  //       },
-  //       error: (err) => console.error('Delete error', err)
-  //     });
-  //   }
-  // }
+deleteStock(product: any) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You will not be able to recover this stock!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.stockService.deleteStock(product.StoreProductId).subscribe({
+        next: () => {
+          Swal.fire('Deleted!', 'Stock has been deleted successfully.', 'success');
+          this.applyFilters();
+        },
+        error: (err) => {
+          console.error('Delete error', err);
+          Swal.fire('Error', 'Something went wrong while deleting.', 'error');
+        }
+      });
+    }
+  });
+}
+
 
   // updatePagination() {
   //   const totalItems = this.filteredData.length;

@@ -65,6 +65,8 @@ login(loginData: LoginModel): Observable<any> {
       catchError(() => of(false)) 
     );
   }
-
+    getStoreTypes(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiBaseUrl}/store/storetypes`);
+  }
   
 }

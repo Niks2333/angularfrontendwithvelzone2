@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboards/dashboard/dashboard.component';
 import { StoreListComponent } from './store-list/store-list.component'; 
 import { StoreStockComponent } from './store-stock/store-stock.component';
 import { EditStockComponent } from './edit-stock/edit-stock.component';
+import { StoreAddComponent } from './store-add/store-add.component';
 
 const routes: Routes = [
   // {
@@ -29,6 +30,10 @@ const routes: Routes = [
    {
     path:'edit-stock/:id',
     component: EditStockComponent
+   },
+   {
+    path:'store/add',
+    component:StoreAddComponent
    }
    
  

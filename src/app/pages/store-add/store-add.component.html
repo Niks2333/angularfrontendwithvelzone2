@@ -1,0 +1,111 @@
+<app-breadcrumbs title="STORE MANAGEMENT" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div class="row">
+    <div class="col-12">
+
+        <!-- Store Info Card -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">
+                    {{ isEditMode ? 'Edit Store with Products' : 'Add Store with Products' }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form (ngSubmit)="onSubmit()" #formRef="ngForm">
+
+                    <!-- Store Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Store Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="model.storeName" name="storeName"
+                            placeholder="Enter Store Name" required [readonly]="isEditMode" />
+                    </div>
+
+                    <!-- Store Type -->
+                    <div class="mb-3">
+                        <label class="form-label">Store Type</label>
+                        <select class="form-select" [(ngModel)]="model.storeTypeId" name="storeTypeId" required>
+                            <option value="" disabled hidden>-- Select Store Type --</option>
+                            <option *ngFor="let type of storeTypes" [value]="type.storeTypeId">
+                                {{ type.storeTypeName }}
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Products Card -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Products</h5>
+                <button type="button" class="btn btn-sm btn-primary" (click)="addProduct()">+ Add Product</button>
+            </div>
+            <div class="card-body">
+
+                <div *ngFor="let p of model.products; let i = index; trackBy: trackByIndex"
+                    class="border rounded p-3 mb-3">
+                    <div class="row g-3">
+
+                        <!-- Product Dropdown -->
+                        <div class="col-md-3">
+                            <label class="form-label">Product</label>
+                            <select [(ngModel)]="p.productId" name="productId{{i}}" class="form-select" required>
+                                <option [ngValue]="0" disabled hidden>-- Select Product --</option>
+                                <option *ngFor="let prod of getFilteredProducts(i)" [ngValue]="prod.productId">
+                                    {{ prod.productName }}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="col-md-3">
+                            <label class="form-label">Price</label>
+                            <input type="number" [(ngModel)]="p.storePrice" name="price{{i}}" class="form-control"
+                                placeholder="Enter Price" required min="1" #priceRef="ngModel" />
+                            <div *ngIf="priceRef.invalid && priceRef.touched" class="text-danger small mt-1">
+                                <span *ngIf="priceRef.errors?.['required']">Price is required.</span>
+                                <span *ngIf="priceRef.errors?.['min']">Price must be greater than 0.</span>
+                            </div>
+                        </div>
+
+                        <!-- Stock -->
+                        <div class="col-md-3">
+                            <label class="form-label">Stock</label>
+                            <input type="number" [(ngModel)]="p.stock" name="stock{{i}}" class="form-control"
+                                placeholder="Enter Stock" required min="1" #stockRef="ngModel" />
+                            <div *ngIf="stockRef.invalid && stockRef.touched" class="text-danger small mt-1">
+                                <span *ngIf="stockRef.errors?.['required']">Stock is required.</span>
+                                <span *ngIf="stockRef.errors?.['min']">Stock must be greater than 0.</span>
+                            </div>
+                        </div>
+
+                        <!-- Product Image -->
+                        <div class="col-md-3">
+                            <label class="form-label">Product Image (Optional)</label>
+                            <input type="file" class="form-control" (change)="onProductImageSelected($event, i)" />
+                            <small *ngIf="p.imagePath && !productImageFiles[i]" class="text-muted">
+                                Current: <a [href]="backendImageUrl2 + p.imagePath" target="_blank">View</a>
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Remove Button -->
+                    <div class="text-end mt-2">
+                        <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeProduct(i)">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-light" (click)="router.navigateByUrl('/')">Cancel</button>
+            <button type="submit" class="btn btn-success" [disabled]="formRef.invalid" (click)="onSubmit()">
+                {{ isEditMode ? 'Update' : 'Submit' }}
+            </button>
+        </div>
+
+    </div>
+</div>
