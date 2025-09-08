@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
  import { StoreProductViewModel } from '../models/store-product-view.model';
-// import { WebAddStockViewModel } from '../models/web-add-stock.model';
+import { WebAddStockViewModel } from '../models/addStockModel';
  import { WebEditStockViewModel } from '../models/web-edit-stock.model';
 
 @Injectable({
@@ -33,9 +33,7 @@ export class StoreStockService {
   // getAddStockFormData(storeName: string): Observable<WebAddStockViewModel> {
   //   return this.http.get<WebAddStockViewModel>(`${this.baseUrl}/add-form-data?storeName=${storeName}`);
   // }
-  addStock(formData: FormData) {
-    return this.http.post(`${this.baseUrl}/add`, formData);
-  }
+
   updateStock(formData: FormData) {
     return this.http.post(`${this.baseUrl}/update`, formData);
   }
@@ -47,5 +45,11 @@ export class StoreStockService {
   }
     getEditStockFormData(id: number): Observable<WebEditStockViewModel> {
     return this.http.get<WebEditStockViewModel>(`${this.baseUrl}/edit-form-data/${id}`);
+  }
+    getAddStockFormData(storeName: string): Observable<WebAddStockViewModel> {
+    return this.http.get<WebAddStockViewModel>(`${this.baseUrl}/add-form-data?storeName=${storeName}`);
+  }
+  addStock(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add`, formData);
   }
 }

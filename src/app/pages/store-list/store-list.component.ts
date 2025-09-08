@@ -77,6 +77,6 @@ export class StoreListComponent implements OnInit {
   }
 
   editStore(storeName: string) {
-    this.router.navigate(['/store-edit', storeName]);
+    this.router.navigate(['/store/add', storeName]);
   }
 }

@@ -1,0 +1,87 @@
+<!-- <app-breadcrumbs title="Add Stock" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs> -->
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">Add Stock to {{ storeName }}</h4>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="submit()" #addStockForm="ngForm">
+
+          <!-- Product Select -->
+          <div class="mb-3">
+            <label class="form-label">Select Product <span class="text-danger">*</span></label>
+            <select class="form-select" [(ngModel)]="model.ProductName" name="ProductName" required #product="ngModel">
+              <option value="">-- Select Product --</option>
+              <option *ngFor="let product of availableProducts" [value]="product">{{ product }}</option>
+            </select>
+            <div class="text-danger mt-1" *ngIf="product.invalid && (product.dirty || product.touched)">
+              <small *ngIf="product.errors?.['required']">Product selection is required.</small>
+            </div>
+          </div>
+
+          <!-- Store Price -->
+          <div class="mb-3">
+            <label class="form-label">Store Price <span class="text-danger">*</span></label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="model.StorePrice"
+              name="StorePrice"
+              required
+              min="1"
+              #price="ngModel"
+            />
+            <div class="text-danger mt-1" *ngIf="price.invalid && (price.dirty || price.touched)">
+              <small *ngIf="price.errors?.['required']">Price is required.</small>
+              <small *ngIf="price.errors?.['min']">Price must be greater than 0.</small>
+            </div>
+          </div>
+
+          <!-- Stock Quantity -->
+          <div class="mb-3">
+            <label class="form-label">Stock Quantity <span class="text-danger">*</span></label>
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="model.Stock"
+              name="Stock"
+              required
+              min="0"
+              #stock="ngModel"
+            />
+            <div class="text-danger mt-1" *ngIf="stock.invalid && (stock.dirty || stock.touched)">
+              <small *ngIf="stock.errors?.['required']">Stock is required.</small>
+              <small *ngIf="stock.errors?.['min']">Stock cannot be negative.</small>
+            </div>
+          </div>
+
+          <!-- Upload Image -->
+          <div class="mb-3">
+            <label class="form-label">Upload Image</label>
+            <input type="file" class="form-control" (change)="onFileChange($event)" />
+            <div class="mt-2">
+              <!-- <img
+                *ngIf="previewImage"
+                [src]="previewImage"
+                alt="Product Image"
+                class="img-thumbnail"
+                style="max-height: 120px;"
+              /> -->
+            </div>
+          </div>
+
+          <!-- Footer Buttons -->
+          <div class="d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-light" (click)="close()">Cancel</button>
+            <button type="submit" class="btn btn-success" [disabled]="addStockForm.invalid">
+              Add Stock
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,23 +3,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-
-// Services & Models
 import { StoreService } from 'src/app/core/services/store.service';
-
 import { AddStoreWithProducts, ProductWithOptionalImage } from 'src/app/core/models/add-store-with-product';
-import { environment } from 'src/environments/environment';
 import { SharedModule } from 'src/app/shared/shared.module';
-// Velzon Breadcrumb Component
-import { BreadcrumbsComponent } from 'src/app/shared/breadcrumbs/breadcrumbs.component';
+
+
 
 @Component({
   selector: 'app-store-add',
   standalone: true,
-  imports: [CommonModule, FormsModule,  SharedModule],
+  imports: [CommonModule, FormsModule, SharedModule],
   templateUrl: './store-add.component.html',
   styleUrls: ['./store-add.component.scss']
 })
+
+
 export class StoreAddComponent implements OnInit {
 
   breadCrumbItems: Array<{ label: string; active?: boolean }> = [];
@@ -29,7 +27,7 @@ export class StoreAddComponent implements OnInit {
   storeTypes: any[] = [];
   products: { productId: number; productName: string }[] = [];
   isEditMode = false;
- backendImageUrl2 = 'http://localhost:56262/Content/images/';
+  backendImageUrl2 = 'http://localhost:56262/Content/images/';
 
   constructor(
     private storeService: StoreService,
@@ -51,7 +49,7 @@ export class StoreAddComponent implements OnInit {
         this.addProduct();
       }
 
-   
+
       this.breadCrumbItems = [
         { label: 'Dashboard' },
         { label: 'Stores' },
@@ -69,7 +67,7 @@ export class StoreAddComponent implements OnInit {
     });
   }
 
- 
+
   loadProducts() {
     this.storeService.getAllProducts().subscribe(data => {
       this.products = data.map(p => ({
@@ -95,7 +93,7 @@ export class StoreAddComponent implements OnInit {
 
       this.productImageFiles = new Array(this.model.products.length).fill(null);
 
-   
+
       this.breadCrumbItems[this.breadCrumbItems.length - 1] = { label: 'Edit Store', active: true };
     });
   }
@@ -131,7 +129,7 @@ export class StoreAddComponent implements OnInit {
   }
 
   onSubmit() {
-  debugger;
+    debugger;
     const formData = new FormData();
     formData.append('model', JSON.stringify(this.model));
 

@@ -8,6 +8,7 @@ import { StoreListComponent } from './store-list/store-list.component';
 import { StoreStockComponent } from './store-stock/store-stock.component';
 import { EditStockComponent } from './edit-stock/edit-stock.component';
 import { StoreAddComponent } from './store-add/store-add.component';
+import { AddStockModalComponent } from './add-stock/add-stock.component';
 
 const routes: Routes = [
   // {
@@ -34,6 +35,14 @@ const routes: Routes = [
    {
     path:'store/add',
     component:StoreAddComponent
+   },
+   {
+    path:'store/add/:storeName',
+    component:StoreAddComponent
+   },
+   {
+    path:'add-stock',
+    component:AddStockModalComponent
    }
    
  

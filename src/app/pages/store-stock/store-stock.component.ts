@@ -26,7 +26,7 @@ import Swal from 'sweetalert2';
 })
 export class StoreStockComponent implements OnInit {
 
-
+  Math = Math;
   storeName = '';
   stockData?: StoreProductViewModel;
   backendImageUrl = 'http://localhost:56262/Content/images/';
@@ -170,5 +170,9 @@ deleteStock(product: any) {
 
   get totalPagesArray() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  addStock() {
+    this.router.navigate(['/add-stock', { storeName: this.storeName }]);
   }
 }

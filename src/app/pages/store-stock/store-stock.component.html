@@ -1,4 +1,4 @@
-<app-breadcrumbs title="DASHBOARD" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+<app-breadcrumbs title="Store-Stock" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <div class="row">
 
   <div class="col-lg-12">
@@ -38,106 +38,105 @@
   </div>
 
 
-  <div class="col-lg-12">
-    <div class="card">
+<div class="col-lg-12">
+  <div class="card">
 
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <h4 class="card-title mb-0">Stock List</h4>
-        <div class="d-flex gap-2">
-          <button class="btn btn-soft-secondary" (click)="navigateBack()">
-            <i class="ri-arrow-left-line me-1"></i> Back
-          </button>
-        </div>
-      </div>
-
-
-      <div class="card-body">
-        <div class="listjs-table">
-          <div class="table-responsive table-card mt-3 mb-1">
-            <table class="table align-middle">
-              <thead class="table-light">
-                <tr class="bg-light text-muted">
-                  <th scope="col" style="width: 50px;">
-                    <!-- <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="checkAll"
-                             [(ngModel)]="masterSelected" (change)="checkUncheckAll($event)">
-                    </div> -->
-                  </th>
-                  <th (click)="sortData('productName')" class="sort">Product </th>
-                  <th (click)="sortData('categoryName')" class="sort">Category </th>
-                  <th (click)="sortData('StorePrice')" class="sort">Price </th>
-                  <th (click)="sortData('stock')" class="sort">Stock </th>
-                  <th>Image</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let product of stockData?.Products">
-                  <th scope="row">
-                    <!-- <div class="form-check">
-                      <input class="form-check-input" type="checkbox" name="checkRow"
-                             [(ngModel)]="stock.state" [value]="stock.id">
-                    </div> -->
-                  </th>
-                  <td>{{ product.ProductName }}</td>
-                  <td>{{ product.CategoryName }}</td>
-                  <td>₹{{ product.StorePrice }}</td>
-                  <td>{{ product.Stock }}</td>
-                  <td>
-                    <img [src]="product.ImagePath ? backendImageUrl + product.ImagePath : fallbackImage"
-                      class="rounded avatar-sm" />
-                  </td>
-                  <td class="text-center">
-                    <div class="hstack gap-3 flex-wrap justify-content-center">
-                      <a [routerLink]="['/edit-stock', product.StoreProductId]" [queryParams]="{ storeName: storeName }"
-                        class="link-success fs-15">
-                        <i class="ri-edit-2-line"></i>
-                      </a>
-                <a href="javascript:void(0);" class="link-danger fs-15" (click)="deleteStock(product)">
-  <i class="ri-delete-bin-line"></i>
-</a>
-
-                    </div>
-
-                  </td>
-
-                </tr>
-                <tr *ngIf="paginatedData.length === 0">
-                  <td colspan="7" class="text-center text-muted">No records found</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <div class="row justify-content-md-between align-items-md-center">
-            <div class="col col-sm-6">
-              <div class="dataTables_info mb-2" role="status">
-                Showing {{ (filters.page - 1) * filters.pageSize + 1 }}
-                to {{ (filters.page - 1) * filters.pageSize + filteredData.length }}
-                of {{ stockData?.TotalCount }} entries
-
-              </div>
-            </div>
-            <div class="col col-sm-6">
-              <div class="text-sm-right float-sm-end listjs-pagination">
-                <ul class="pagination pagination-sm mb-0">
-                  <li class="page-item" [class.disabled]="filters.page===1">
-                    <a class="page-link" (click)="changePage(filters.page-1)">Previous</a>
-                  </li>
-                  <li *ngFor="let p of totalPagesArray" class="page-item" [class.active]="p===filters.page">
-                    <a class="page-link" (click)="changePage(p)">{{p}}</a>
-                  </li>
-                  <li class="page-item" [class.disabled]="filters.page===totalPages">
-                    <a class="page-link" (click)="changePage(filters.page+1)">Next</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
+    <!-- Heading only -->
+    <div class="card-header bg-light text-muted">
+      <h4 class="card-title mb-0">Stock List</h4>
     </div>
+
+    <div class="card-body">
+      <!-- Buttons row BELOW the heading -->
+      <div class="row g-4 mb-3">
+  <div class="col-sm-auto">
+    <div class="d-flex gap-1">
+      <!-- Back button -->
+      <button class="btn btn-sm btn-soft-secondary" (click)="navigateBack()">
+        <i class="ri-arrow-left-line me-1"></i> Back
+      </button>
+
+      <!-- Add button -->
+      <button type="button" class="btn btn-sm btn-success add-btn" (click)="addStock()">
+        <i class="ri-add-line align-bottom me-1"></i> Add
+      </button>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Table -->
+      <div class="listjs-table">
+        <div class="table-responsive table-card mt-3 mb-1">
+          <table class="table align-middle">
+            <thead class="table-light">
+              <tr class="bg-light text-muted">
+                <th scope="col" style="width: 50px;"></th>
+                <th (click)="sortData('productName')" class="sort">Product </th>
+                <th (click)="sortData('categoryName')" class="sort">Category </th>
+                <th (click)="sortData('StorePrice')" class="sort">Price </th>
+                <th (click)="sortData('stock')" class="sort">Stock </th>
+                <th>Image</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of stockData?.Products">
+                <td></td>
+                <td>{{ product.ProductName }}</td>
+                <td>{{ product.CategoryName }}</td>
+                <td>₹{{ product.StorePrice }}</td>
+                <td>{{ product.Stock }}</td>
+                <td>
+                  <img [src]="product.ImagePath ? backendImageUrl + product.ImagePath : fallbackImage"
+                       class="rounded avatar-sm" />
+                </td>
+                <td class="text-center">
+                  <div class="hstack gap-3 flex-wrap justify-content-center">
+                    <a [routerLink]="['/edit-stock', product.StoreProductId]" 
+                       [queryParams]="{ storeName: storeName }"
+                       class="link-success fs-15">
+                      <i class="ri-edit-2-line"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="link-danger fs-15" 
+                       (click)="deleteStock(product)">
+                      <i class="ri-delete-bin-line"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination + info -->
+        <div class="row justify-content-md-between align-items-md-center">
+          <div class="col col-sm-6">
+            <div class="dataTables_info mb-2" role="status">
+              Showing {{ (filters.page - 1) * filters.pageSize + 1 }}
+              to {{ Math.min(filters.page * filters.pageSize, stockData?.TotalCount || 0) }}
+              of {{ stockData?.TotalCount }} entries
+            </div>
+          </div>
+          <div class="col col-sm-6">
+            <div class="text-sm-right float-sm-end listjs-pagination">
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="filters.page===1">
+                  <a class="page-link" (click)="changePage(filters.page-1)">Previous</a>
+                </li>
+                <li *ngFor="let p of totalPagesArray" class="page-item" [class.active]="p===filters.page">
+                  <a class="page-link" (click)="changePage(p)">{{p}}</a>
+                </li>
+                <li class="page-item" [class.disabled]="filters.page===totalPages">
+                  <a class="page-link" (click)="changePage(filters.page+1)">Next</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end listjs-table -->
+    </div><!-- end card-body -->
+
   </div>
 </div>
