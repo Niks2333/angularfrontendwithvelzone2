@@ -7,6 +7,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NgLabelTemplateDirective, NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../shared/shared.module';
 import { RouterModule } from '@angular/router'; 
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 import Swal from 'sweetalert2';
 
@@ -56,7 +57,8 @@ export class StoreStockComponent implements OnInit {
   constructor(
     private stockService: StoreStockService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private offcanvasService: NgbOffcanvas
   ) { }
 
   ngOnInit(): void {
@@ -154,7 +156,17 @@ deleteStock(product: any) {
       this.fetchStock();
     }
   }
+  openFilter(content: any) {
+  this.offcanvasService.open(content, { position: 'end' });
+}
 
+resetFilters() {
+  this.filters.search = '';
+  this.filters.SelectedCategories = [];
+  this.filters.pageSize = 5;
+  this.filters.page = 1;
+  this.fetchStock();
+}
   reloadData() {
     this.fetchStock();
   }
